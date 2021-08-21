@@ -42,15 +42,22 @@ function show_charts(select_data){
       }
       // show bubble chart on webpage
       Plotly.newPlot('bubble', bubble_data, bubble_layout)
-
-      //demographics = data.metadata.filter(sample => sample.id == select_data)
-      //demographics = demographics[0]
-      //console.log(demographics) 
       
-      //Plotly.newPlot('sample-metadata', demographics)
+      demographics = data.metadata.filter(sample => sample.id == select_data)
+      demographics = demographics[0]
+      console.log(demographics) 
+
+      // put metadata into the panel
+      var PANEL = d3.select("#sample-metadata");
+      // Use `.html("") to Clear any Existing Metadata
+      PANEL.html("");
+      // change metadata for each_choice
+      Object.entries(demographics).forEach(([key, value]) => {
+      PANEL.append("h6").text(`${key}:${value}`);
+      })      
+
     })
 }
-
 
 // Fetch the JSON data and put it into the dropdown menu
 d3.json("samples.json").then ((data)=> {
